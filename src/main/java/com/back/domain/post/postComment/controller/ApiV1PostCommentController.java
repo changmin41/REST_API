@@ -19,6 +19,7 @@ import java.util.List;
 public class ApiV1PostCommentController {
     private final PostService postService;
 
+    @Transactional(readOnly = true)
     @GetMapping
     public List<PostCommentDto> getItems(
             @PathVariable long postId
@@ -32,6 +33,7 @@ public class ApiV1PostCommentController {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     @GetMapping("/{id}")
     public PostCommentDto getItem(
             @PathVariable long postId,
