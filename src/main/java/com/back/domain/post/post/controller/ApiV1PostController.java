@@ -29,7 +29,7 @@ public class ApiV1PostController {
 
     @GetMapping("/{id}")
     public PostDto getItem(@PathVariable Long id) {
-        Post item = postService.getPost(id);
+        Post item = postService.findById(id);
 
         return new PostDto(item);
     }
