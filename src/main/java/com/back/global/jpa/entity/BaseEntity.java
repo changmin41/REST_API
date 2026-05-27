@@ -1,4 +1,3 @@
-
 package com.back.global.jpa.entity;
 
 import jakarta.persistence.*;

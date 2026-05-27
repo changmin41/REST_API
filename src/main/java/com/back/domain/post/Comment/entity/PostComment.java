@@ -1,5 +1,4 @@
-
-package com.back.domain.post.postComment.entity;
+package com.back.domain.post.Comment.entity;
 
 import com.back.domain.post.post.entity.Post;
 import com.back.global.jpa.entity.BaseEntity;
@@ -15,8 +14,8 @@ import lombok.NoArgsConstructor;
 public class PostComment extends BaseEntity {
     private String content;
 
-    @ManyToOne
     @JsonIgnore
+    @ManyToOne
     private Post post;
 
     public PostComment(Post post, String content) {

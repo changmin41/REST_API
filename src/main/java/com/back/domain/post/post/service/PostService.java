@@ -1,12 +1,13 @@
 package com.back.domain.post.post.service;
 
+import com.back.domain.post.Comment.entity.PostComment;
 import com.back.domain.post.post.entity.Post;
 import com.back.domain.post.post.repository.PostRepository;
-import com.back.domain.post.postComment.entity.PostComment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -14,9 +15,7 @@ public class PostService {
     private final PostRepository postRepository;
 
     public Post findByTitle(String title) {
-        return postRepository.findByTitle(title).orElseThrow(
-                () -> new RuntimeException("게시글이 존재하지 않습니다.")
-        );
+        return postRepository.findByTitle(title).get();
     }
 
     public long count() {
@@ -38,9 +37,7 @@ public class PostService {
     }
 
     public Post findById(Long id) {
-        return postRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("게시글이 존재하지 않습니다.")
-        );
+        return postRepository.findById(id).get();
     }
 
     public void createComment(Post post, String content) {
@@ -57,12 +54,24 @@ public class PostService {
         return post.deleteComment(postComment);
     }
 
-    public void modify(PostComment postComment, String content) {
+    public void modifyComment(PostComment postComment, String content) {
         // 자식 엔티티(PostComment)의 필드 변경 → 더티 체킹에 의해 UPDATE 실행
         postComment.modify(content);
     }
 
     public void delete(Post post) {
         postRepository.delete(post);
+    }
+
+    public Optional<Post> findLatest() {
+        return postRepository.findFirstByOrderByIdDesc();
+    }
+
+    public PostComment writeComment(Post post, String content) {
+        return post.addComment(content);
+    }
+
+    public void flush(){
+        postRepository.flush();
     }
 }
